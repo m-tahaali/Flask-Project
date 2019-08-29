@@ -21,7 +21,8 @@ def contact():
 
 @app.route("/post")
 def post():
-    return render_template("post.html")
+    post = {'title': '', 'author': '', 'date' : '', 'heading' : '', 'subheading' : '', 'content' : '<h1> Test </h1>'}
+    return render_template("post.html", post=post)
 
 
-app.run(debug=True,port=80,host="0.0.0.0")
+app.run(debug=True, port=80, host="0.0.0.0")
