@@ -21,9 +21,9 @@ def about():
 
 
 @app.route("/post")
-def post():
+def posthtml():
     post = {'title': '', 'author': '', 'date': '', 'heading': '', 'subheading': '',
-            'content': markupsafe.Markup('<h1> Test </h1>')}
+            'content': markupsafe.Markup('')}
     return render_template("post.html", post=post)
 
 
