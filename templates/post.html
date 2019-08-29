@@ -9,10 +9,13 @@
           <div class="post-heading">
             <h1>{{ post.heading }}</h1>
             <h2 class="subheading">{{ post.subheading }}</h2>
-            {% if post.date %}
-            <span class="meta">Posted by
+            {% if post.author or post.date %}
+            <span class="meta">Posted {% if post.author %} by
               <a href="#">{{ post.author }}</a>
-              on {{ post.date }}</span>
+              {% endif %}
+              {% if post.date %}
+              on {{ post.date }}
+            {% endif %}</span>
             {% endif %}
           </div>
         </div>
@@ -34,7 +37,6 @@
   {% endif %}
 
   <hr>
-<<<<<<< HEAD
 {%endblock%}
 =======
 
@@ -85,4 +87,3 @@
 </body>
 
 </html>
->>>>>>> 6054608dbfcd40291f566a227524cd194f91500a
