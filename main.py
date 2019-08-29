@@ -19,6 +19,8 @@ def contact():
 def about():
     return render_template("about.html")
 
+class post_props():
+    def __init__(self):
 
 @app.route("/post")
 def post():
