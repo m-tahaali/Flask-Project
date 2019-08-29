@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import sqlalchemy
+import markupsafe
 
 app = Flask(__name__)
 
@@ -21,7 +22,8 @@ def contact():
 
 @app.route("/post")
 def post():
-    post = {'title': '', 'author': '', 'date' : '', 'heading' : '', 'subheading' : '', 'content' : '<h1> Test </h1>'}
+    post = {'title': '', 'author': '', 'date': '', 'heading': '', 'subheading': '',
+            'content': markupsafe.Markup('<h1> Test </h1>')}
     return render_template("post.html", post=post)
 
 
