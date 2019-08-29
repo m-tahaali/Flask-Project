@@ -18,4 +18,20 @@ def posts():
 def contact():
     return render_template("contact.html")
 
-app.run(debug=True,port=80,host="0.0.0.0")
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
+@app.route("/post")
+def post():
+    post = {'title': '', 'author': '', 'date' : '', 'heading' : '', 'subheading' : '', 'content' : '<h1> Test </h1>'}
+    return render_template("post.html", post=post)
+
+
+app.run(debug=True, port=80, host="0.0.0.0")
