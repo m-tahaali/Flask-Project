@@ -20,23 +20,73 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
+        {% if post1.show %}
         <div class="post-preview">
-          <a href="post">
+          <a href="/post/{{ post1.postid }}">
             <h2 class="post-title">
-              Man must explore, and this is exploration at its greatest
+              {{ post1.heading }}
             </h2>
             <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
+              {{ post1.subheading }}
             </h3>
           </a>
           <p class="post-meta">Posted by
-            <a href="#">Taha Ali</a>
-            on October 29, 2019</p>
+            <a href="#">{{ post1.author }}</a>
+            on {{ post1.date }}</p>
         </div>
         <hr>
+        {% endif %}
+        {% if post2.show %}
+        <div class="post-preview">
+          <a href="/post/{{ post2.postid }}">
+            <h2 class="post-title">
+              {{ post2.heading }}
+            </h2>
+            <h3 class="post-subtitle">
+              {{ post2.subheading }}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{ post2.author }}</a>
+            on {{ post2.date }}</p>
+        </div>
+        <hr>
+        {% endif %}
+        {% if post3.show %}
+        <div class="post-preview">
+          <a href="/post/{{ post3.postid }}">
+            <h2 class="post-title">
+              {{ post3.heading }}
+            </h2>
+            <h3 class="post-subtitle">
+              {{ post3.subheading }}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{ post3.author }}</a>
+            on {{ post3.date }}</p>
+        </div>
+        <hr>
+        {% endif %}
+        {% if post4.show %}
+        <div class="post-preview">
+          <a href="/post/{{ post4.postid }}">
+            <h2 class="post-title">
+              {{ post4.heading }}
+            </h2>
+            <h3 class="post-subtitle">
+              {{ post4.subheading }}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{ post4.author }}</a>
+            on {{ post4.date }}</p>
+        </div>
+        <hr>
+        {% endif %}
         <!-- Pager -->
         <div class="clearfix">
-          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+          <a class="btn btn-primary float-right" href="#" hidden="true">Older Posts &rarr;</a>
         </div>
       </div>
     </div>
