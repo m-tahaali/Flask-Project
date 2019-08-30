@@ -1,26 +1,8 @@
-<<<<<<< HEAD
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-import markupsafe
-import datetime
-
-class post_props():
-    def __init__(self,title="Post",author="Ali or Taha",date=datetime.datetime.now().strftime("%x"),heading="Ali",subheading=None,content=None):
-        self.title=title
-        self.author=author
-        self.date=date
-        self.heading=heading
-        self.subheading=subheading
-        self.content=content
-
-a=post_props(heading="Taha")
-=======
 from datetime import datetime
 
 from flask import Flask, render_template, request
 import markupsafe
 from flask_sqlalchemy import SQLAlchemy
->>>>>>> 3901de3270a2ab8f74417d05a39d26ef518e5805
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://HAAcmJ5HTU:oRnOUJQsOK@remotemysql.com:3306/HAAcmJ5HTU'
@@ -57,11 +39,6 @@ def about():
     return render_template("about.html")
 
 
-<<<<<<< HEAD
-@app.route("/post")
-def post():
-    return render_template("post.html", post=a)
-=======
 @app.route("/post", methods=['POST', 'GET', ''])
 def posthtml():
     if request.method == 'GET':
@@ -78,7 +55,6 @@ def posthtml():
             post = {'title': '', 'author': '', 'date': '', 'heading': 'No Post ID Found', 'subheading': '',
                     'content': markupsafe.Markup('')}
     return render_template("post.html", post=post)
->>>>>>> 3901de3270a2ab8f74417d05a39d26ef518e5805
 
 
 app.run(debug=True, port=80, host="0.0.0.0")
