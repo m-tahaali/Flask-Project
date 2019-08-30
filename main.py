@@ -19,9 +19,13 @@ class Posts(db.Model):
     author = db.Column(db.String(80), nullable=False)
     heading = db.Column(db.Text, nullable=False)
     subheading = db.Column(db.Text, nullable=False)
+    image = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return '<Post %r>' % self.title
+
+
+db.create_all()
 
 
 @app.route("/")
@@ -39,22 +43,43 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/post", methods=['POST', 'GET', ''])
-def posthtml():
+@app.route("/post/<postid>", methods=['POST', 'GET'])
+def posthtml(postid):
     if request.method == 'GET':
-        if request.args.get('id') and Posts.query.filter_by(id=request.args.get('id')).first():
-            postid = request.args.get('id')
+        if Posts.query.filter_by(id=postid).first():
             selected = Posts.query.filter_by(id=postid).first()
             post = {'title': selected.title,
                     'author': selected.author,
                     'date': selected.pub_date,
                     'heading': selected.heading,
                     'subheading': selected.subheading,
-                    'content': selected.content}
+                    'content': markupsafe.Markup(selected.content),
+                    'image': selected.image}
         else:
             post = {'title': '', 'author': '', 'date': '', 'heading': 'No Post ID Found', 'subheading': '',
-                    'content': markupsafe.Markup('')}
+                    'content': markupsafe.Markup(''), 'image': ''}
     return render_template("post.html", post=post)
+
+
+@app.route("/add", methods=['POST', 'GET'])
+def addpost():
+    if request.method == 'POST':
+        post = Posts(title=request.form.get('title'),
+                     content=request.form.get('content'),
+                     heading=request.form.get('heading'),
+                     subheading=request.form.get('subheading'),
+                     author=request.form.get('author'),
+                     image=request.form.get('image'))
+        db.session.add(post)
+        db.session.commit()
+        post = {'title': 'Success', 'author': '', 'date': '', 'heading': 'Succes Your Post Id is ' + str(post.id),
+                'subheading': '',
+                'content': markupsafe.Markup('<a href="/post/' + str(post.id) + '"> Go To: <br><h3>' + post.heading
+                                             + '</h3> <h4>' + post.subheading + '</h4></a>'),
+                'image': ''}
+        return render_template("post.html", post=post)
+    else:
+        return render_template("addpost.html")
 
 
 app.run(debug=True, port=80, host="0.0.0.0")
