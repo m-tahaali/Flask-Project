@@ -11,14 +11,14 @@ db = SQLAlchemy(app)
 
 
 class Posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    pub_date = db.Column(db.DateTime, nullable=False,
-                         default=datetime.utcnow)
+    content = db.Column(db.Text(), nullable=False)
+    pub_date = db.Column(db.DateTime(), nullable=False,
+                         default=datetime.utcnow())
     author = db.Column(db.String(80), nullable=False)
-    heading = db.Column(db.Text, nullable=False)
-    subheading = db.Column(db.Text, nullable=False)
+    heading = db.Column(db.Text(), nullable=False)
+    subheading = db.Column(db.Text(), nullable=False)
 
     def __repr__(self):
         return '<Post %r>' % self.title
