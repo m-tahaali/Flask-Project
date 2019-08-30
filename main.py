@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+import sqlalchemy
+from flask import Flask, render_template, request
 import markupsafe
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///localhost/db'
 db = SQLAlchemy(app)
 
 
@@ -22,10 +23,16 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/post")
+@app.route("/post", methods=['POST', 'GET', ''])
 def posthtml():
-    post = {'title': '', 'author': '', 'date': '', 'heading': '', 'subheading': '',
-            'content': markupsafe.Markup('')}
+    if request.method == 'GET':
+        if request.args.get('id'):
+            postid = request.args.get('id')
+            post = {'title': '', 'author': '', 'date': '', 'heading': '', 'subheading': '',
+                    'content': markupsafe.Markup('')}
+        else:
+            post = {'title': '', 'author': '', 'date': '', 'heading': 'No Post ID Found', 'subheading': '',
+                    'content': markupsafe.Markup('')}
     return render_template("post.html", post=post)
 
 
