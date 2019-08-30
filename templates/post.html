@@ -1,13 +1,13 @@
 {%extends "layout.html"%}
 {%block main%}
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('{{url_for('static',filename='img/post-bg.jpg')}}')">
+  <header class="masthead" style="background-image: url('{{ post.image }}')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
-            <h1>{{ post.heading }}</h1>
+            <h1>{{ post.heading }} </h1>
             <h2 class="subheading">{{ post.subheading }}</h2>
             {% if post.author or post.date %}
             <span class="meta">Posted {% if post.author %} by

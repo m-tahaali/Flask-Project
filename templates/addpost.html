@@ -1,0 +1,73 @@
+{%extends "layout.html"%}
+{%block main%}
+<!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{url_for('static',filename='img/post-bg.jpg')}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Add Post!</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form novalidate method="post">
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Title</label>
+              <input type="text" class="form-control" placeholder="Title" name="title" id="title" required data-validation-required-message="Please enter a Title.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Heading</label>
+              <input type="text" class="form-control" placeholder="Heading" name="heading" id="heading" required data-validation-required-message="Please enter a Heading.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div><div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>SubHeading</label>
+              <input type="text" class="form-control" placeholder="SubHeading" name="subheading" id="subheading" required data-validation-required-message="Please enter a SubHeading.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div><div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Author Name</label>
+              <input type="text" class="form-control" placeholder="Author Name" name="author" id="author" required data-validation-required-message="Please enter your UserName.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Post Banner Image URL</label>
+              <input type="text" class="form-control" placeholder="Post Banner Image URL" name="image" id="image" required data-validation-required-message="Please enter a URL from the web.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Post Content in HTML</label>
+              <textarea rows="12" class="form-control" placeholder="Post Content in HTML" name="content" id="content" required data-validation-required-message="Please enter some Post Content."></textarea>
+              <p class="help-block text-danger"> </p>
+            </div>
+          </div>
+          <br>
+          <div id="success"></div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="addPostButton">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+{%endblock%}
