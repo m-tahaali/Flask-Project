@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
 from flask_login import UserMixin
-from flask_login import LoginManager 
+from flask_login import LoginManager
 
 
 app = Flask(__name__)
@@ -55,10 +55,14 @@ def load_user(user_id):
 @app.route("/")
 def home():
     posts = Posts.query.order_by(Posts.pub_date)
-    post1 = {'heading': '', 'subheading': '', 'author': '', 'date': '', 'show': '', 'postid': ''}
-    post2 = {'heading': '', 'subheading': '', 'author': '', 'date': '', 'show': '', 'postid': ''}
-    post3 = {'heading': '', 'subheading': '', 'author': '', 'date': '', 'show': '', 'postid': ''}
-    post4 = {'heading': '', 'subheading': '', 'author': '', 'date': '', 'show': '', 'postid': ''}
+    post1 = {'heading': '', 'subheading': '',
+             'author': '', 'date': '', 'show': '', 'postid': ''}
+    post2 = {'heading': '', 'subheading': '',
+             'author': '', 'date': '', 'show': '', 'postid': ''}
+    post3 = {'heading': '', 'subheading': '',
+             'author': '', 'date': '', 'show': '', 'postid': ''}
+    post4 = {'heading': '', 'subheading': '',
+             'author': '', 'date': '', 'show': '', 'postid': ''}
     if posts.get(1):
         post = posts.get(1)
         post1 = {
@@ -151,56 +155,56 @@ def addpost():
         return render_template("addpost.html")
 
 
-@app.route("/signup", methods=['POST'])
+@app.route("/signup", methods=['POST','GET'])
 def signup_post():
-    email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
+    if request.method=="POST":
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
 
-    useremail = User.query.filter_by(email=email).first()
-    username = User.query.filter_by(name=name).first()
+        useremail = User.query.filter_by(email=email).first()
+        username = User.query.filter_by(name=name).first()
 
-    if useremail:
-        flash('Email address already exists')
-        return redirect('/signup')
-    if username:
-        flash(' already exists')
-        return redirect('/signup')
+        if useremail:
+            flash('Email address already exists')
+            return redirect('/signup')
+        if username:
+            flash(' already exists')
+            return redirect('/signup')
 
-    # if the above check passes, then we know the user has the right credentials
-    return redirect(url_for('main.profile'))    flash('User Name already exists')
-        return redirect('/signup')
+        # if the above check passes, then we know the user has the right credentials
 
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), rank='guest')
-    db.session.add(new_user)
-    db.session.commit()
+        new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), rank='guest')
+        db.session.add(new_user)
+        db.session.commit()
 
-    return redirect('/login')
+        return redirect("/login")
+    else:
+        return render_template('signup.html')
 
-@app.route("/signup", methods=['GET'])
-def signup():
-    return render_template('signup.html')
 
-@app.route(“/login”, methods=[‘GET’])
-def login():
-    return render_template(‘login.html’)
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login_post():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
+    if request.method == "POST":
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
 
-    user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first()
 
-    # check if user actually exists
-    # take the user supplied password, hash it, and compare it to the hashed password in database
-    if not user or not check_password_hash(user.password, password): 
-        flash('Please check your login details and try again.')
-        return redirect(‘/login’) # if user doesn't exist or password is wrong, reload the page
+        # check if user actually exists
+        # take the user supplied password, hash it, and compare it to the hashed password in database
+        if not user or not check_password_hash(user.password, password):
+            flash('Please check your login details and try again.')
+            # if user doesn't exist or password is wrong, reload the page
+            return redirect("/login")
 
-    # if the above check passes, then we know the user has the right credentials
-    login_user(user, remember=remember)
-    return redirect(‘/‘)
+        # if the above check passes, then we know the user has the right credentials
+        login_user(user, remember=remember)
+        return redirect("/")
+    else:
+        return render_template("login.html")
+
 
 app.run(debug=True, port=80, host="0.0.0.0")
