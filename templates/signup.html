@@ -1,14 +1,26 @@
 {% extends "layout.html" %}
 
 {% block main %}
+  <header class="masthead" style="background-image: url('{{url_for('static',filename='img/post-bg.jpg')}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Add Post!</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-    <h3 class="title">Sign Up</h3>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         <div class="notification is-danger">
-            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+            {{ messages[0] }}. Go to <a href="/login">login page</a>.
         </div>
         {% endif %}
         {% endwith %}
