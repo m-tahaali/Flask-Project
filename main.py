@@ -5,6 +5,9 @@ import markupsafe
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
+from flask_login import UserMixin
+from flask_login import LoginManager 
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'rjrJWXVQashrOA/s58ODMQ=='
@@ -28,7 +31,7 @@ class Posts(db.Model):
         return '<Post %r>' % self.title
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
@@ -37,6 +40,16 @@ class User(db.Model):
 
 
 db.create_all()
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    # since the user_id is just the primary key of our user table, use it in the query for the user
+    return User.query.get(int(user_id))
 
 
 @app.route("/")
@@ -168,9 +181,11 @@ def signup_post():
 def signup():
     return render_template('signup.html')
 
+@app.route(“/login”, methods=[‘GET’])
+def login():
+    return render_template(‘login.html’)
 
-
-@auth.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
@@ -182,9 +197,10 @@ def login_post():
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if not user or not check_password_hash(user.password, password): 
         flash('Please check your login details and try again.')
-        return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
+        return redirect(‘/login’) # if user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
-    return redirect(url_for('main.profile'))
+    login_user(user, remember=remember)
+    return redirect(‘/‘)
 
 app.run(debug=True, port=80, host="0.0.0.0")
