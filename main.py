@@ -1,10 +1,13 @@
 from datetime import datetime
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 import markupsafe
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash
+from werkzeug.utils import redirect
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'rjrJWXVQashrOA/s58ODMQ=='
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://HAAcmJ5HTU:oRnOUJQsOK@remotemysql.com:3306/HAAcmJ5HTU'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -23,6 +26,14 @@ class Posts(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % self.title
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000), unique=True)
+    rank = db.Column(db.String(1000))
 
 
 db.create_all()
@@ -126,5 +137,31 @@ def addpost():
     else:
         return render_template("addpost.html")
 
+
+@app.route("/signup", methods=['POST'])
+def signup_post():
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
+
+    useremail = User.query.filter_by(email=email).first()
+    username = User.query.filter_by(name=name).first()
+
+    if useremail:
+        flash('Email address already exists')
+        return redirect('/signup')
+    if username:
+        flash('User Name already exists')
+        return redirect('/signup')
+
+    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), rank='guest')
+    db.session.add(new_user)
+    db.session.commit()
+
+    return redirect('/login')
+
+@app.route("/signup", methods=['GET'])
+def signup():
+    return render_template('signup.html')
 
 app.run(debug=True, port=80, host="0.0.0.0")
