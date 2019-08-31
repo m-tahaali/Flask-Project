@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from flask import Flask, render_template, request
-import markupsafe
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import markupsafe
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://HAAcmJ5HTU:oRnOUJQsOK@remotemysql.com:3306/HAAcmJ5HTU'
