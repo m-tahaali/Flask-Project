@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block main %}
+  <header class="masthead" style="background-image: url('{{url_for('static',filename='img/post-bg.jpg')}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Add Post!</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}. Go to <a href="/login">login page</a>.
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/signup">
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                    <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="" required data-validation-required-message="Please enter your Email.">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                    <input class="input is-large" type="text" name="name" placeholder="User Name" autofocus="" required data-validation-required-message="Please enter your Username.">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                    <input class="input is-large" type="password" name="password" placeholder="Password" required data-validation-required-message="Please enter a Password.">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="SignUpButton">Sign Up</button>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock %}
